@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eling — Wear to Carry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ijo: { DEFAULT: '#1B3A24', light: '#3F6B48', dark: '#12261A' },
+          emas: { DEFAULT: '#D3A526', light: '#E8C158', dark: '#B3861A' },
+          soga: { DEFAULT: '#7A4B23', light: '#9C6635' },
+          krem: '#F6EFDC',
+          klobot: '#E7D3A8',
+          arang: '#241D15',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          body: ['"Plus Jakarta Sans"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  .scallop-down { height: 26px; background: radial-gradient(circle at 10px 26px, transparent 12px, var(--sc-color) 13px) 0 0/20px 26px repeat-x; }
+  .scallop-up   { height: 26px; background: radial-gradient(circle at 10px 0px,  transparent 12px, var(--sc-color) 13px) 0 0/20px 26px repeat-x; }
+
+  .batik-dots {
+    background-image: radial-gradient(rgba(211,165,38,0.16) 1.6px, transparent 1.6px);
+    background-size: 18px 18px;
+  }
+
+  .parang-line {
+    background-image: repeating-linear-gradient(135deg, rgba(246,239,220,0.06) 0px, rgba(246,239,220,0.06) 2px, transparent 2px, transparent 14px);
+  }
+
+  .weave-tan {
+    background-image: repeating-linear-gradient(45deg, rgba(122,75,35,0.10) 0px, rgba(122,75,35,0.10) 2px, transparent 2px, transparent 10px),
+                       repeating-linear-gradient(-45deg, rgba(122,75,35,0.10) 0px, rgba(122,75,35,0.10) 2px, transparent 2px, transparent 10px);
+  }
+
+  .num-tag { font-family: 'JetBrains Mono', monospace; }
+
+  .toggle-fade { transition: opacity .5s ease, transform .5s ease; }
+
+  ::selection { background: #D3A526; color: #1B3A24; }
+
+  input:focus-visible, a:focus-visible, button:focus-visible { outline: 2px solid #D3A526; outline-offset: 3px; }
+</style>
+</head>
+<body class="bg-krem text-arang antialiased">
+
+<!-- NAV -->
+<header class="fixed top-0 inset-x-0 z-50 bg-ijo/95 backdrop-blur border-b border-ijo-light/30">
+  <nav class="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-baseline gap-2">
+      <span class="font-display font-semibold text-2xl text-krem tracking-tight">Eling</span>
+      <span class="hidden sm:inline text-[11px] uppercase tracking-[0.2em] text-emas num-tag">wear to carry</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm text-krem/85">
+      <a href="#cerita" class="hover:text-emas transition-colors">Cerita</a>
+      <a href="#keunggulan" class="hover:text-emas transition-colors">Keunggulan</a>
+      <a href="#cara-kerja" class="hover:text-emas transition-colors">Proses Pembuatan</a>
+      <a href="#keberlanjutan" class="hover:text-emas transition-colors">Sustainability</a>
+      <a href="#untuk-siapa" class="hover:text-emas transition-colors">Target Pasar</a>
+    </div>
+    <a href="www.link.com" target="_blank" rel="noopener" class="hidden md:inline-flex items-center gap-2 bg-emas hover:bg-emas-light text-ijo-dark font-semibold text-sm px-4 py-2.5 rounded-full transition-colors">
+      Beli di Shopee
+    </a>
+    <button id="menuBtn" aria-label="Buka menu" class="md:hidden text-krem">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden bg-ijo-dark border-t border-ijo-light/30 px-5 py-4 flex flex-col gap-4 text-krem/90">
+    <a href="#cerita">Cerita</a>
+    <a href="#keunggulan">Keunggulan</a>
+    <a href="#cara-kerja">Proses Pembuatan</a>
+    <a href="#keberlanjutan">Sustainability</a>
+    <a href="#untuk-siapa">Target Pasar</a>
+    <a href="www.link.com" target="_blank" rel="noopener" class="inline-flex justify-center bg-emas text-ijo-dark font-semibold px-4 py-2.5 rounded-full">Beli di Shopee</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative bg-ijo text-krem pt-28 pb-16 md:pt-36 md:pb-24 batik-dots overflow-hidden">
+  <div class="absolute inset-0 parang-line pointer-events-none"></div>
+  <div class="relative max-w-6xl mx-auto px-5 md:px-8 grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <span class="inline-block text-xs num-tag tracking-[0.2em] uppercase text-emas mb-4 border border-emas/40 rounded-full px-3 py-1">Fesyen Etnik &middot; Berkelanjutan &middot; Unisex</span>
+      <h1 class="font-display font-semibold text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.08] mb-5">
+        Rompi batik yang<br>berubah jadi <span class="italic text-emas">totebag</span>.
+      </h1>
+      <p class="text-krem/80 text-base sm:text-lg leading-relaxed mb-7 max-w-md">
+        Eling adalah rompi 2-in-1 dari 100% bahan alami — dikenakan sebagai busana etnik, dilipat jadi tas belanja yang menahan beban hingga 1 kg. Satu produk, dua kebiasaan baik.
+      </p>
+      <div class="flex flex-wrap items-center gap-4 mb-8">
+        <a href="www.link.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emas hover:bg-emas-light text-ijo-dark font-semibold px-6 py-3.5 rounded-full transition-colors">
+          Beli di Shopee — Rp 400.000
+        </a>
+        <a href="#cara-kerja" class="inline-flex items-center gap-2 text-krem/85 hover:text-emas font-medium underline underline-offset-4">
+          Lihat cara transformasinya
+        </a>
+      </div>
+      <p class="text-xs text-krem/50 num-tag">size l → s &middot; serut pinggang &middot; pre-order terbatas</p>
+    </div>
+
+    <!-- Interactive vest/tote toggle -->
+    <div class="bg-ijo-dark/60 border border-emas/20 rounded-3xl p-6 sm:p-8">
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <span id="labelVest" class="text-sm font-semibold text-emas">Mode Rompi</span>
+        <button id="modeToggle" aria-label="Ganti tampilan mode" class="relative w-14 h-7 rounded-full bg-emas/30 flex items-center px-1 transition-colors">
+          <span id="knob" class="w-5 h-5 rounded-full bg-emas transform transition-transform"></span>
+        </button>
+        <span id="labelTote" class="text-sm font-semibold text-krem/50">Mode Totebag</span>
+      </div>
+
+      <div class="relative h-56 sm:h-64 flex items-center justify-center">
+        <!-- Vest illustration -->
+        <svg id="illuVest" class="toggle-fade absolute" width="180" height="200" viewBox="0 0 180 200" fill="none">
+          <path d="M45 20 L20 45 L35 70 L45 55 L45 180 L135 180 L135 55 L145 70 L160 45 L135 20 L110 35 L70 35 Z" fill="#4C7A52" stroke="#F6EFDC" stroke-width="2"/>
+          <circle cx="90" cy="80" r="2.5" fill="#D3A526"/><circle cx="90" cy="105" r="2.5" fill="#D3A526"/><circle cx="90" cy="130" r="2.5" fill="#D3A526"/>
+          <path d="M60 100 Q90 90 120 100" stroke="#D3A526" stroke-width="1.5" fill="none" opacity="0.7"/>
+          <path d="M60 145 Q90 135 120 145" stroke="#D3A526" stroke-width="1.5" fill="none" opacity="0.7"/>
+        </svg>
+        <!-- Tote illustration -->
+        <svg id="illuTote" class="toggle-fade absolute opacity-0" width="180" height="200" viewBox="0 0 180 200" fill="none">
+          <path d="M65 55 Q65 25 90 25 Q115 25 115 55" stroke="#E7D3A8" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <rect x="35" y="55" width="110" height="120" rx="8" fill="#7A4B23" stroke="#F6EFDC" stroke-width="2"/>
+          <path d="M50 90 Q90 78 130 90" stroke="#D3A526" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <path d="M50 120 Q90 108 130 120" stroke="#D3A526" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <path d="M50 150 Q90 138 130 150" stroke="#D3A526" stroke-width="1.5" fill="none" opacity="0.8"/>
+        </svg>
+      </div>
+      <p id="illuCaption" class="text-center text-sm text-krem/70 mt-4 num-tag">3 jenis kain alami &middot; motif batik tulis</p>
+      <div class="mt-6 flex items-center gap-3 bg-krem/95 rounded-xl p-2 pr-4 -rotate-1">
+        <img src="foto.png" alt="Prototipe rompi Eling hijau, kuning, dan totebag cokelat" class="w-1/2 h-30 object-cover rounded-lg">
+        <p class="w-1/2 text-[11px] num-tag text-arang/60 leading-snug">Foto prototipe asli — motif batik tulis rumah adat</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- stat strip -->
+  <div class="relative max-w-6xl mx-auto px-5 md:px-8 mt-14 md:mt-20">
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center border-t border-emas/20 pt-8">
+      <div><p class="num-tag text-2xl text-emas font-semibold">100%</p><p class="text-xs text-krem/60 mt-1">bahan alami</p></div>
+      <div><p class="num-tag text-2xl text-emas font-semibold">1 kg</p><p class="text-xs text-krem/60 mt-1">kapasitas bawa</p></div>
+      <div><p class="num-tag text-2xl text-emas font-semibold">3</p><p class="text-xs text-krem/60 mt-1">jenis kain</p></div>
+      <div><p class="num-tag text-2xl text-emas font-semibold">L→S</p><p class="text-xs text-krem/60 mt-1">ukuran serut</p></div>
+      <div class="col-span-2 sm:col-span-1"><p class="num-tag text-2xl text-emas font-semibold">5</p><p class="text-xs text-krem/60 mt-1">motif rumah adat</p></div>
+    </div>
+  </div>
+</section>
+<div style="--sc-color:#F6EFDC" class="scallop-down"></div>
+
+<!-- CERITA -->
+<section id="cerita" class="bg-krem py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 grid md:grid-cols-5 gap-10 items-start">
+    <div class="md:col-span-2">
+      <span class="text-xs num-tag uppercase tracking-[0.2em] text-soga">Kenapa Eling hadir</span>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl mt-3 leading-tight">Tiga masalah,<br>satu jahitan.</h2>
+      <p class="text-arang/70 mt-4 leading-relaxed">
+        Eling lahir dari pengamatan sederhana: tekstil sintetis menumpuk, sisa kulit jagung dan batok kelapa terbuang, dan anak muda makin jauh dari cerita di balik motif batik.
+      </p>
+    </div>
+    <div class="md:col-span-3 grid sm:grid-cols-3 gap-5">
+      <div class="bg-white rounded-2xl p-6 border border-soga/10">
+        <div class="w-10 h-10 rounded-full bg-ijo/10 flex items-center justify-center mb-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B3A24" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </div>
+        <h3 class="font-semibold mb-2">Limbah tekstil</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Polyester fast fashion sulit terurai dan terus menumpuk di akhir masa pakainya.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-soga/10">
+        <div class="w-10 h-10 rounded-full bg-ijo/10 flex items-center justify-center mb-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B3A24" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3 class="font-semibold mb-2">Limbah pangan</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Sisa kulit jagung dan batok kelapa dari dapur rumahan terus bertambah, belum banyak dimanfaatkan.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-soga/10">
+        <div class="w-10 h-10 rounded-full bg-ijo/10 flex items-center justify-center mb-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B3A24" stroke-width="2"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg>
+        </div>
+        <h3 class="font-semibold mb-2">Literasi budaya</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Generasi muda kian jauh dari makna motif batik dan ragam rumah adat Indonesia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div style="--sc-color:#E7D3A8" class="scallop-down"></div>
+
+<!-- KEUNGGULAN -->
+<section id="keunggulan" class="bg-klobot weave-tan py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-xl mb-12">
+      <span class="text-xs num-tag uppercase tracking-[0.2em] text-soga">Keunggulan produk</span>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl mt-3 leading-tight">Delapan alasan Eling layak dipakai berulang.</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- items -->
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">01</span>
+        <h3 class="font-semibold mt-2 mb-2">100% bahan alami</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Katun (Gossypium) dan rami (Boehmeria nivea) yang biodegradable, tak meninggalkan limbah tekstil di akhir pakai.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">02</span>
+        <h3 class="font-semibold mt-2 mb-2">Multifungsi</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Berubah jadi totebag berkapasitas hingga 1 kg, mengurangi kebiasaan memakai kantong plastik saat belanja.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">03</span>
+        <h3 class="font-semibold mt-2 mb-2">Ucapan bercerita</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Keychain kulit jagung menyertakan kartu ucapan berisi filosofi motif rompi yang kamu terima.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">04</span>
+        <h3 class="font-semibold mt-2 mb-2">Kustomisasi</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Ajukan warna dan elemen motif tambahan, termasuk penamaan pada keychain terkait.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">05</span>
+        <h3 class="font-semibold mt-2 mb-2">Edukasi berjalan</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Kenali 3 jenis kain alami, 5 rumah adat dari 5 pulau utama Indonesia, dan cara sisa kain diubah jadi keychain.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">06</span>
+        <h3 class="font-semibold mt-2 mb-2">Nilai budaya</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Teknik batik tulis untuk motif rompi, dipadukan teknik anyaman sederhana pada kulit jagung untuk keychain.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">07</span>
+        <h3 class="font-semibold mt-2 mb-2">Ukuran fleksibel</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Serut mengelilingi lingkar pinggang, ukuran L hingga S tanpa mengubah tampilan motif.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <span class="num-tag text-soga/50 text-xs">08</span>
+        <h3 class="font-semibold mt-2 mb-2">Zero waste</h3>
+        <p class="text-sm text-arang/60 leading-relaxed">Pola dirancang presisi, sisa kain jahit dikumpulkan, lalu dijahit ulang jadi keychain — tak ada yang terbuang.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div style="--sc-color:#1B3A24" class="scallop-down"></div>
+
+<!-- CARA KERJA -->
+<section id="cara-kerja" class="bg-ijo text-krem py-16 md:py-24 batik-dots">
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-xl mb-14">
+      <span class="text-xs num-tag uppercase tracking-[0.2em] text-emas">Cara kerja</span>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl mt-3 leading-tight">Dari pola kain sampai keychain, tanpa sisa.</h2>
+      <p class="text-krem/70 mt-4 leading-relaxed">Eling menerapkan zero waste dan ekonomi sirkular dalam tiga langkah berurutan berikut.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8 relative">
+      <div class="hidden md:block absolute top-6 left-[16.6%] right-[16.6%] h-px bg-emas/30"></div>
+      <div class="relative">
+        <div class="w-12 h-12 rounded-full bg-emas text-ijo-dark font-semibold flex items-center justify-center num-tag mb-5 relative z-10">1</div>
+        <h3 class="font-semibold text-lg mb-2">Merancang pola</h3>
+        <p class="text-sm text-krem/65 leading-relaxed">Pola pada ketiga jenis kain dirancang presisi untuk meminimalkan sisa potong sejak awal.</p>
+      </div>
+      <div class="relative">
+        <div class="w-12 h-12 rounded-full bg-emas text-ijo-dark font-semibold flex items-center justify-center num-tag mb-5 relative z-10">2</div>
+        <h3 class="font-semibold text-lg mb-2">Mengumpulkan sisa</h3>
+        <p class="text-sm text-krem/65 leading-relaxed">Kain perca hasil menjahit rompi dikumpulkan, begitu pula sisa kulit jagung dan batok kelapa.</p>
+      </div>
+      <div class="relative">
+        <div class="w-12 h-12 rounded-full bg-emas text-ijo-dark font-semibold flex items-center justify-center num-tag mb-5 relative z-10">3</div>
+        <h3 class="font-semibold text-lg mb-2">Menjahit ulang</h3>
+        <p class="text-sm text-krem/65 leading-relaxed">Sisa perca dan bahan organik dijahit dan dianyam kembali menjadi keychain — produk turunan tanpa limbah.</p>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-5 mt-16">
+      <div class="bg-ijo-dark/60 border border-emas/15 rounded-2xl p-6">
+        <p class="num-tag text-xs text-emas mb-2">kain 01</p>
+        <h4 class="font-semibold mb-1">Mori</h4>
+        <p class="text-sm text-krem/60">Kain dasar batik tulis, permukaan halus untuk detail motif.</p>
+      </div>
+      <div class="bg-ijo-dark/60 border border-emas/15 rounded-2xl p-6">
+        <p class="num-tag text-xs text-emas mb-2">kain 02</p>
+        <h4 class="font-semibold mb-1">Katun</h4>
+        <p class="text-sm text-krem/60">Serat kapas (Gossypium), lentur dan nyaman untuk dikenakan harian.</p>
+      </div>
+      <div class="bg-ijo-dark/60 border border-emas/15 rounded-2xl p-6">
+        <p class="num-tag text-xs text-emas mb-2">kain 03</p>
+        <h4 class="font-semibold mb-1">Mori dobi &amp; rami</h4>
+        <p class="text-sm text-krem/60">Serat rami (Boehmeria nivea) menambah kekuatan tarik saat rompi jadi totebag.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div style="--sc-color:#F6EFDC" class="scallop-down"></div>
+
+<!-- KEBERLANJUTAN -->
+<section id="keberlanjutan" class="bg-krem py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-xl mb-12">
+      <span class="text-xs num-tag uppercase tracking-[0.2em] text-soga">Keberlanjutan usaha</span>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl mt-3 leading-tight">Planet, People, Profit — satu ekosistem fesyen.</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl p-7 border-t-4 border-ijo">
+        <h3 class="font-display font-semibold text-xl mb-3">Planet</h3>
+        <p class="text-sm text-arang/65 leading-relaxed mb-5">Serat rami sebagai bahan utama, kain perca dan limbah organik (kulit jagung, batok kelapa) diubah jadi keychain.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="num-tag text-xs bg-ijo/10 text-ijo px-3 py-1.5 rounded-full">SDG 12 · Konsumsi &amp; produksi bertanggung jawab</span>
+          <span class="num-tag text-xs bg-ijo/10 text-ijo px-3 py-1.5 rounded-full">SDG 13 · Penanganan perubahan iklim</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-7 border-t-4 border-emas">
+        <h3 class="font-display font-semibold text-xl mb-3">People</h3>
+        <p class="text-sm text-arang/65 leading-relaxed mb-5">Teknik batik tulis tradisional pada desain modern menjaga eksistensi warisan budaya sekaligus menyisipkan pesan edukasi.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="num-tag text-xs bg-emas/15 text-soga px-3 py-1.5 rounded-full">SDG 11 · Kota &amp; komunitas berkelanjutan</span>
+          <span class="num-tag text-xs bg-emas/15 text-soga px-3 py-1.5 rounded-full">SDG 4 · Pendidikan berkualitas</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-7 border-t-4 border-soga">
+        <h3 class="font-display font-semibold text-xl mb-3">Profit</h3>
+        <p class="text-sm text-arang/65 leading-relaxed mb-5">Produk multifungsi berbahan baku limbah menekan harga pokok, membuka lapangan kerja bagi pembatik dan pengrajin lokal.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="num-tag text-xs bg-soga/10 text-soga px-3 py-1.5 rounded-full">SDG 8 · Pekerjaan layak</span>
+          <span class="num-tag text-xs bg-soga/10 text-soga px-3 py-1.5 rounded-full">SDG 12 · Ekonomi sirkular</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div style="--sc-color:#E7D3A8" class="scallop-down"></div>
+
+<!-- UNTUK SIAPA -->
+<section id="untuk-siapa" class="bg-klobot weave-tan py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-xl mb-12">
+      <span class="text-xs num-tag uppercase tracking-[0.2em] text-soga">Untuk siapa</span>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl mt-3 leading-tight">Dari pemakai harian hingga mitra institusi.</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-krem rounded-2xl p-6">
+        <p class="num-tag text-xs text-soga mb-2">B2C · remaja</p>
+        <p class="text-sm text-arang/65 leading-relaxed">Usia 12–25 tahun, menyukai gaya etnik kontemporer dan aktif mengikuti tren fashion.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <p class="num-tag text-xs text-soga mb-2">B2C · dewasa</p>
+        <p class="text-sm text-arang/65 leading-relaxed">Usia 26–60 tahun, menyukai gaya etnik yang lebih autentik dan formal, daya beli lebih tinggi.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <p class="num-tag text-xs text-soga mb-2">B2B</p>
+        <p class="text-sm text-arang/65 leading-relaxed">Toko fashion di wilayah Jabodetabek yang mencari produk unik berbasis batik.</p>
+      </div>
+      <div class="bg-krem rounded-2xl p-6">
+        <p class="num-tag text-xs text-soga mb-2">B2G</p>
+        <p class="text-sm text-arang/65 leading-relaxed">Instansi pemerintah atau organisasi untuk kebutuhan souvenir dan pemberdayaan UMKM.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      <span class="text-xs num-tag bg-white px-4 py-2 rounded-full border border-soga/15">100% bahan alami</span>
+      <span class="text-xs num-tag bg-white px-4 py-2 rounded-full border border-soga/15">motif kustom</span>
+      <span class="text-xs num-tag bg-white px-4 py-2 rounded-full border border-soga/15">kolaborasi pengrajin lokal</span>
+      <span class="text-xs num-tag bg-white px-4 py-2 rounded-full border border-soga/15">edisi terbatas / pre-order</span>
+    </div>
+  </div>
+</section>
+<div style="--sc-color:#1B3A24" class="scallop-down"></div>
+
+<!-- CTA -->
+<section class="bg-ijo text-krem py-16 md:py-20 batik-dots">
+  <div class="max-w-4xl mx-auto px-5 md:px-8 text-center">
+    <p class="text-xs num-tag uppercase tracking-[0.2em] text-emas mb-4">Pre-order terbatas</p>
+    <h2 class="font-display font-semibold text-3xl sm:text-4xl mb-4">Bawa cerita budaya, satu jahitan sekaligus.</h2>
+    <p class="num-tag text-5xl sm:text-6xl text-emas font-semibold mb-8">Rp 400.000</p>
+    <a href="www.link.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emas hover:bg-emas-light text-ijo-dark font-semibold px-8 py-4 rounded-full transition-colors">
+      Pesan di Shopee Sekarang
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-arang text-krem/70 py-14">
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="grid sm:grid-cols-3 gap-10 mb-10">
+      <div>
+        <span class="font-display text-2xl text-krem">Eling</span>
+        <p class="text-sm mt-3 leading-relaxed max-w-xs">Rompi batik Indonesia yang bertransformasi menjadi totebag fungsional — eling pada bahan, eling pada budaya.</p>
+      </div>
+      <div class="text-sm">
+        <p class="text-krem mb-2 font-medium">Kontak</p>
+        <p>Jl. Moh Kahfi II No. 66, Jagakarsa</p>
+        <p>Jakarta Selatan, Indonesia</p>
+      </div>
+      <div class="text-sm">
+        <p class="text-krem mb-2 font-medium">Disusun oleh</p>
+        <p>Adisty Elysia Khairana</p>
+        <p>SMA Avicenna Jagakarsa</p>
+      </div>
+    </div>
+    <div class="border-t border-krem/10 pt-6 text-xs num-tag text-krem/40 flex flex-col sm:flex-row justify-between gap-2">
+      <span>&copy; 2026 Eling. Cabang fashion — rencana usaha.</span>
+      <span>Wear to carry.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+  const toggle = document.getElementById('modeToggle');
+  const knob = document.getElementById('knob');
+  const illuVest = document.getElementById('illuVest');
+  const illuTote = document.getElementById('illuTote');
+  const labelVest = document.getElementById('labelVest');
+  const labelTote = document.getElementById('labelTote');
+  const caption = document.getElementById('illuCaption');
+  let isTote = false;
+
+  toggle.addEventListener('click', () => {
+    isTote = !isTote;
+    knob.style.transform = isTote ? 'translateX(28px)' : 'translateX(0)';
+    illuVest.style.opacity = isTote ? '0' : '1';
+    illuVest.style.transform = isTote ? 'scale(0.9) rotate(-4deg)' : 'scale(1) rotate(0deg)';
+    illuTote.style.opacity = isTote ? '1' : '0';
+    illuTote.style.transform = isTote ? 'scale(1) rotate(0deg)' : 'scale(0.9) rotate(4deg)';
+    labelVest.className = isTote ? 'text-sm font-semibold text-krem/50' : 'text-sm font-semibold text-emas';
+    labelTote.className = isTote ? 'text-sm font-semibold text-emas' : 'text-sm font-semibold text-krem/50';
+    caption.textContent = isTote ? 'kapasitas hingga 1 kg · kurangi kantong plastik' : '3 jenis kain alami · motif batik tulis';
+  });
+</script>
+</body>
+</html>
